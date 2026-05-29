@@ -11,7 +11,7 @@ public class Movimiento implements IMostrable, IMovimiento {
         this.codigoProducto = codigoProducto;
         this.cantidad = cantidad;
     }
-    @Override
+
     public void mostrar() {
         System.out.println("[" + fecha + "] " + tipo + " | Producto: " + codigoProducto + " | Cantidad: " + cantidad);
     }
