@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Pedido {
+public class Pedido implements IMostrable {
     private int id;
     private String cliente;
     private String estado;

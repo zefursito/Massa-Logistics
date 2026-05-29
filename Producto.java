@@ -1,4 +1,6 @@
-public class Producto {
+
+
+public class Producto implements IMostrable {
     private String codigo;
     private String nombre;
     private String categoria;
