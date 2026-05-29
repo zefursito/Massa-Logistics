@@ -1,51 +1,31 @@
-import java.util.ArrayList;
-
 public class Main {
 
     public static void main(String[] args) {
+
         System.out.println("=== Massa Logistics ===");
 
-        // Creamos una lista de envíos
-        ArrayList<Envio> envios = new ArrayList<>();
-        envios.add(new Envio("E001", "Buenos Aires", "Córdoba", 12.5));
-        envios.add(new Envio("E002", "Rosario", "Mendoza", 8.0));
-        envios.add(new Envio("E003", "La Plata", "Salta", 25.3));
+        // Productos de prueba
+        Producto p1 = new Producto("P001", "Laptop HP", "Computadoras", 10, "A-01");
+        Producto p2 = new Producto("P002", "iPhone 15", "Celulares", 3, "B-02");
+        Producto p3 = new Producto("P003", "Arroz 1kg", "Alimentos", 50, "C-03");
 
-        // Mostramos todos los envíos y el costo de cada uno
-        double total = 0;
-        for (Envio envio : envios) {
-            envio.mostrar();
-            total += envio.calcularCosto();
-        }
+        System.out.println("\n-- Productos --");
+        p1.mostrar();
+        p2.mostrar();
+        p3.mostrar();
 
-        System.out.printf("%nCosto total de los envíos: $%.2f%n", total);
-    }
-}
+        // Pedido de prueba
+        Pedido pedido = new Pedido(1, "Juan Perez");
+        pedido.agregarProducto(p1);
+        pedido.agregarProducto(p2);
 
-class Envio {
-    private String codigo;
-    private String origen;
-    private String destino;
-    private double pesoKg;
+        System.out.println("\n-- Pedido --");
+        pedido.mostrar();
 
-    public Envio(String codigo, String origen, String destino, double pesoKg) {
-        this.codigo = codigo;
-        this.origen = origen;
-        this.destino = destino;
-        this.pesoKg = pesoKg;
-    }
+        // Movimiento de prueba
+        Movimiento m = new Movimiento("ENTRADA", "2025-05-29", "P001", 5);
 
-    // Costo simple: $1500 base + $200 por kilo
-    public double calcularCosto() {
-        return 1500 + (pesoKg * 200);
-    }
-
-    public void mostrar() {
-        System.out.printf("Envío %s: %s -> %s (%.1f kg) | Costo: $%.2f%n",
-                codigo, origen, destino, pesoKg, calcularCosto());
-    }
-
-    public String getCodigo() {
-        return codigo;
+        System.out.println("\n-- Movimiento --");
+        m.mostrar();
     }
 }
