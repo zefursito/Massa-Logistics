@@ -12,6 +12,7 @@ public class Movimiento implements IMostrable, IMovimiento {
         this.cantidad = cantidad;
     }
 
+
     public void mostrar() {
         System.out.println("[" + fecha + "] " + tipo + " | Producto: " + codigoProducto + " | Cantidad: " + cantidad);
     }

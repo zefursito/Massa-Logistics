@@ -1,6 +1,4 @@
-
-
-public class Producto implements IMostrable {
+public class Producto {
     private String codigo;
     private String nombre;
     private String categoria;
@@ -18,7 +16,7 @@ public class Producto implements IMostrable {
     public void agregarStock(int cantidad) {
         this.stock += cantidad;
     }
-
+    
     public boolean reducirStock(int cantidad) {
         if (this.stock >= cantidad) {
             this.stock -= cantidad;
