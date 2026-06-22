@@ -1,80 +1,48 @@
 # Massa Logistics
 
-## Integrantes
+## Integrantes del grupo
 - Joaquin Furze
 - Facundo Alamo
 
 ## Alternativa elegida
 Alternativa C: Centro Logístico de Distribución Avanzada
 
----
-
 ## Estructuras de datos utilizadas
+- Diccionario — catálogo de productos por código.
+- Conjunto — códigos de producto ya usados (evita duplicados).
+- Cola con Prioridad (min-heap) — detección de stock crítico.
+- Cola (FIFO) — pedidos por orden de llegada.
+- Pila (LIFO) — historial de movimientos.
+- Pila Enlazada — reversión de operaciones (deshacer).
+- Cola Circular — flota de camiones para reparto.
+- Lista Enlazada — pedidos activos.
+- Árbol binario — jerarquía de categorías.
+- Grafo ponderado no dirigido — zonas del depósito y rutas (camino más corto).
 
-**Diccionario**
-Guarda cada producto asociado a su código. Permite buscarlo, agregarlo o eliminarlo rápidamente por código.
+## Funcionalidades implementadas
+- Gestión de productos: alta con control de código duplicado y búsqueda por código.
+- Stock crítico: identificación del producto con menor stock.
+- Pedidos: atención FIFO y listado de pedidos activos con altas y bajas.
+- Movimientos: historial y reversión de la última operación.
+- Reparto: flota de camiones en cola circular y asignación a ruta.
+- Categorías: jerarquía en árbol binario con visualización.
+- Rutas del depósito: grafo de zonas y cálculo del camino más corto.
 
-**Conjunto**
-Lleva registro de los códigos ya usados para evitar cargar dos veces el mismo producto.
-
-**Cola con Prioridad**
-Ordena los productos según su stock. El que tiene menos cantidad queda primero, así se puede detectar rápido cuál necesita reposición.
-
-**Cola**
-Maneja los pedidos en orden de llegada. El primero en entrar es el primero en ser atendido.
-
-**Pila**
-Guarda el historial de movimientos del depósito. Siempre se ve el último movimiento registrado primero.
-
-**Pila Enlazada**
-Igual que la pila pero con nodos enlazados. Se usa para revertir operaciones, sacando la última acción realizada.
-
-**Cola Circular**
-Maneja los camiones disponibles para reparto. Cuando un camión sale de la cola, el lugar queda disponible para el siguiente que entre, sin desperdiciar espacio.
-
-**Lista Enlazada**
-Guarda los pedidos activos uno tras otro. Se puede agregar o eliminar pedidos en cualquier posición sin necesidad de un tamaño fijo.
-
-**Árbol Binario**
-Organiza las categorías del depósito en jerarquía. Por ejemplo, Electrónica contiene Computadoras y Celulares. Se muestra visualmente con ramas igual al comando tree de Linux.
-
-**Grafo**
-Representa las zonas del depósito y los caminos entre ellas con sus distancias. Permite saber si dos zonas están conectadas directamente y calcular el camino más corto entre cualquier par de zonas.
-
----
-
-## Funcionalidades implementadas — Segunda etapa
-
-**Cola Circular de Camiones**
-Se registran los camiones disponibles. Cuando uno sale a hacer un reparto, su lugar en la cola queda libre para el próximo que llegue. 
-
-**Lista Enlazada de Pedidos**
-Se listan todos los pedidos activos. Se pueden agregar nuevos pedidos y eliminar los que ya fueron entregados sin que afecte al resto de la lista.
-
-**Árbol de Categorías**
-Se organiza el catálogo en categorías y subcategorías. Cada categoría puede tener varias subcategorías debajo. La visualización muestra la jerarquía completa con ramas, igual que una carpeta de archivos.
-
-**Grafo de Rutas del Depósito**
-Se definen las zonas del depósito y los pasillos que las conectan con su distancia. Dado un origen y un destino, el sistema calcula automáticamente el camino más corto entre ellos.
-
----
-
-## Repositorio
+## Link del repositorio
 https://github.com/zefursito/Massa-Logistics
 
----
-
-## Actividades por integrante
+## Actividades realizadas por cada integrante
 
 ### Joaquin Furze
-- Estructura inicial del proyecto.
-- Clases base: Producto, Pedido y Movimiento.
-- Implementación y corrección del Diccionario.
-- Ajustes y cambios generales en el código.
-- Segunda etapa: Cola Circular de Camiones y Lista Enlazada de Pedidos.
+- Estructura inicial del proyecto y organización en paquetes.
+- Clases base del modelo: Producto, Pedido, Movimiento y Camion.
+- Implementación y corrección del Diccionario, la Cola Circular de camiones y la Lista Enlazada de pedidos.
+- Gestores de inventario, pedidos y reparto (paquete service).
+- Programa principal de demostración (Main).
 
 ### Facundo Alamo
-- Interfaces del sistema: IMostrable, IColeccion e IMovimiento.
-- Cola de Pedidos, Conjunto de códigos y Cola con Prioridad de stock crítico.
-- Limpieza general del código.
-- Segunda etapa: Árbol de Categorías y Grafo de Rutas del Depósito.
+- Interfaces del sistema: IMostrable, IColeccion, IMovimiento, IPriorizable.
+- Implementación de la Cola, la Pila, la Pila Enlazada, el Conjunto de códigos y la Cola con Prioridad de stock crítico.
+- Árbol de categorías y Grafo de rutas del depósito.
+- Gestor de movimientos (paquete service).
+- Casos de prueba de los TDA (PruebasTDA) y redacción del README.

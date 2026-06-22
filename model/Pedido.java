@@ -1,3 +1,7 @@
+package model;
+
+import interfaces.IMostrable;
+
 public class Pedido implements IMostrable {
 
     private class Nodo {
@@ -65,6 +69,7 @@ public class Pedido implements IMostrable {
         this.estado = nuevoEstado;
     }
 
+    @Override
     public void mostrar() {
         System.out.println("Pedido #" + id + " | Cliente: " + cliente + " | Estado: " + estado);
         Nodo actual = cabeza;

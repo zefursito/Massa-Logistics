@@ -1,3 +1,7 @@
+package tda;
+
+import interfaces.IColeccion;
+
 public class Pila<T> implements IColeccion {
 
     private static final int CAPACIDAD = 100;

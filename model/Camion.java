@@ -1,3 +1,7 @@
+package model;
+
+import interfaces.IMostrable;
+
 public class Camion implements IMostrable {
 
     private final String patente;

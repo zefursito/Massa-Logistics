@@ -1,6 +1,10 @@
+package model;
+
+import interfaces.IMostrable;
+import interfaces.IMovimiento;
 
 public class Movimiento implements IMostrable, IMovimiento {
-    private String tipo;          // "ENTRADA" o "SALIDA"
+    private String tipo;
     private String fecha;
     private String codigoProducto;
     private int cantidad;
@@ -12,17 +16,24 @@ public class Movimiento implements IMostrable, IMovimiento {
         this.cantidad = cantidad;
     }
 
+    private String detalle() {
+        return "[" + fecha + "] " + tipo + " | Producto: " + codigoProducto + " | Cantidad: " + cantidad;
+    }
 
+    @Override
     public void mostrar() {
-        System.out.println("[" + fecha + "] " + tipo + " | Producto: " + codigoProducto + " | Cantidad: " + cantidad);
+        System.out.println(detalle());
     }
 
+    @Override
     public void registrar() {
-        System.out.println("[" + fecha + "] " + tipo + " | Producto: " + codigoProducto + " | Cantidad: " + cantidad);
+        System.out.println("Movimiento registrado -> " + detalle());
     }
 
+    @Override
     public void revertir() {
-        System.out.println("Revirtiendo: [" + fecha + "] " + tipo + " de " + cantidad + " unidades - Producto: " + codigoProducto);
+        System.out.println("Revirtiendo: [" + fecha + "] " + tipo + " de " + cantidad +
+                " unidades - Producto: " + codigoProducto);
     }
 
     public String getTipo() { return tipo; }

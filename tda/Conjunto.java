@@ -1,3 +1,7 @@
+package tda;
+
+import interfaces.IColeccion;
+
 public class Conjunto<T> implements IColeccion {
 
     private static final int CAPACIDAD = 100;

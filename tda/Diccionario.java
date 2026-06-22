@@ -1,3 +1,7 @@
+package tda;
+
+import interfaces.IColeccion;
+
 public class Diccionario<K, V> implements IColeccion {
 
     private static final int CAPACIDAD = 100;
@@ -25,15 +29,17 @@ public class Diccionario<K, V> implements IColeccion {
         return -1;
     }
 
-    public void insertar(K clave, V valor) {
+    public boolean insertar(K clave, V valor) {
         int pos = buscarPosicion(clave);
         if (pos != -1) {
             datos[pos].valor = valor;
-            return;
+            return true;
         }
+        if (cant >= CAPACIDAD - 1) return false;
         cant++;
         datos[cant].clave = clave;
         datos[cant].valor = valor;
+        return true;
     }
 
     public V buscar(K clave) {

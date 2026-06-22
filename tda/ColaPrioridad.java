@@ -1,23 +1,32 @@
-public class ColaPrioridad implements IColeccion {
+package tda;
+
+import interfaces.IColeccion;
+import interfaces.IPriorizable;
+
+public class ColaPrioridad<T extends IPriorizable> implements IColeccion {
 
     private static final int CAPACIDAD = 100;
-    private final Producto[] arreglo;
+    private final Object[] arreglo;
     private int cantidad;
 
     public ColaPrioridad() {
-        arreglo = new Producto[CAPACIDAD];
+        arreglo = new Object[CAPACIDAD];
     }
 
-    public void insertar(Producto producto) {
-        if (cantidad >= CAPACIDAD) return;
-        arreglo[cantidad] = producto;
+    @SuppressWarnings("unchecked")
+    private T elem(int i) { return (T) arreglo[i]; }
+
+    public boolean insertar(T elemento) {
+        if (cantidad >= CAPACIDAD) return false;
+        arreglo[cantidad] = elemento;
         subirNodo(cantidad);
         cantidad++;
+        return true;
     }
 
-    public Producto extraerMinimo() {
+    public T extraerMinimo() {
         if (estaVacia()) return null;
-        Producto minimo = arreglo[0];
+        T minimo = elem(0);
         cantidad--;
         arreglo[0] = arreglo[cantidad];
         arreglo[cantidad] = null;
@@ -25,18 +34,16 @@ public class ColaPrioridad implements IColeccion {
         return minimo;
     }
 
-    public Producto verMinimo() {
+    public T verMinimo() {
         if (estaVacia()) return null;
-        return arreglo[0];
+        return elem(0);
     }
 
     private void subirNodo(int posicion) {
         while (posicion > 0) {
             int posPadre = (posicion - 1) / 2;
-            if (arreglo[posPadre].obtenerStock() > arreglo[posicion].obtenerStock()) {
-                Producto aux = arreglo[posPadre];
-                arreglo[posPadre] = arreglo[posicion];
-                arreglo[posicion] = aux;
+            if (elem(posPadre).obtenerPrioridad() > elem(posicion).obtenerPrioridad()) {
+                intercambiar(posPadre, posicion);
                 posicion = posPadre;
             } else {
                 break;
@@ -51,21 +58,25 @@ public class ColaPrioridad implements IColeccion {
             int posMenor         = posicion;
 
             if (posHijoIzquierdo < cantidad &&
-                arreglo[posHijoIzquierdo].obtenerStock() < arreglo[posMenor].obtenerStock()) {
+                elem(posHijoIzquierdo).obtenerPrioridad() < elem(posMenor).obtenerPrioridad()) {
                 posMenor = posHijoIzquierdo;
             }
             if (posHijoDerecho < cantidad &&
-                arreglo[posHijoDerecho].obtenerStock() < arreglo[posMenor].obtenerStock()) {
+                elem(posHijoDerecho).obtenerPrioridad() < elem(posMenor).obtenerPrioridad()) {
                 posMenor = posHijoDerecho;
             }
 
             if (posMenor == posicion) break;
 
-            Producto aux = arreglo[posicion];
-            arreglo[posicion] = arreglo[posMenor];
-            arreglo[posMenor] = aux;
+            intercambiar(posicion, posMenor);
             posicion = posMenor;
         }
+    }
+
+    private void intercambiar(int i, int j) {
+        Object aux = arreglo[i];
+        arreglo[i] = arreglo[j];
+        arreglo[j] = aux;
     }
 
     @Override

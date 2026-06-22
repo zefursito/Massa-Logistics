@@ -1,3 +1,7 @@
+package tda;
+
+import interfaces.IColeccion;
+
 public class ListaEnlazada<T> implements IColeccion {
 
     private class Nodo {

@@ -1,3 +1,7 @@
+package tda;
+
+import interfaces.IColeccion;
+
 public class Cola<T> implements IColeccion {
 
     private class Nodo {

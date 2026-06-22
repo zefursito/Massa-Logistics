@@ -1,4 +1,9 @@
-public class Producto {
+package model;
+
+import interfaces.IMostrable;
+import interfaces.IPriorizable;
+
+public class Producto implements IMostrable, IPriorizable {
     private String codigo;
     private String nombre;
     private String categoria;
@@ -16,7 +21,7 @@ public class Producto {
     public void agregarStock(int cantidad) {
         this.stock += cantidad;
     }
-    
+
     public boolean reducirStock(int cantidad) {
         if (this.stock >= cantidad) {
             this.stock -= cantidad;
@@ -35,6 +40,10 @@ public class Producto {
     public String getCategoria() { return categoria; }
     public String getUbicacion() { return ubicacion; }
 
+    @Override
+    public int obtenerPrioridad() { return stock; }
+
+    @Override
     public void mostrar() {
         System.out.println("Codigo: " + codigo + " | Nombre: " + nombre +
                 " | Categoria: " + categoria + " | Stock: " + stock + " | Ubicacion: " + ubicacion);

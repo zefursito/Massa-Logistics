@@ -1,4 +1,8 @@
-public class ArbolCategorias {
+package tda;
+
+import interfaces.IColeccion;
+
+public class ArbolCategorias implements IColeccion {
 
     private class Nodo {
         String nombre;
@@ -45,9 +49,9 @@ public class ArbolCategorias {
         return buscarNodo(actual.siguienteHermano, nombre);
     }
 
-    private static final String RAMA     = "├── ";
-    private static final String ULTIMA   = "└── ";
-    private static final String VERTICAL = "│   ";
+    private static final String RAMA     = "|-- ";
+    private static final String ULTIMA   = "\\-- ";
+    private static final String VERTICAL = "|   ";
     private static final String VACIO    = "    ";
 
     public void mostrar() {
@@ -63,5 +67,9 @@ public class ArbolCategorias {
         mostrarHijos(actual.siguienteHermano, prefijo);
     }
 
+    @Override
+    public boolean estaVacia() { return cantidad == 0; }
+
+    @Override
     public int getCantidad() { return cantidad; }
 }

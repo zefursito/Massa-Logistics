@@ -1,4 +1,8 @@
-public class GrafoRutas {
+package tda;
+
+import interfaces.IColeccion;
+
+public class GrafoRutas implements IColeccion {
 
     private static final int SIN_RUTA = 0;
     private static final int INFINITO = 1000000000;
@@ -97,5 +101,9 @@ public class GrafoRutas {
         return -1;
     }
 
-    public int getCantidadZonas() { return cantidad; }
+    @Override
+    public boolean estaVacia() { return cantidad == 0; }
+
+    @Override
+    public int getCantidad() { return cantidad; }
 }
