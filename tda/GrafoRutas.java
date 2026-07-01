@@ -56,8 +56,44 @@ public class GrafoRutas implements IColeccion {
         if (inicio == -1 || fin == -1) return -1;
 
         int[] distancia = new int[cantidad];
+        calcularPrevios(inicio, distancia);
+
+        return distancia[fin] == INFINITO ? -1 : distancia[fin];
+    }
+
+    public String caminoMasCorto(String origen, String destino) {
+        int inicio = indiceDe(origen);
+        int fin = indiceDe(destino);
+        if (inicio == -1 || fin == -1) return null;
+
+        int[] distancia = new int[cantidad];
+        int[] previo = calcularPrevios(inicio, distancia);
+        if (distancia[fin] == INFINITO) return null;
+
+        int[] camino = new int[cantidad];
+        int cantidadCamino = 0;
+        int actual = fin;
+        while (actual != -1) {
+            camino[cantidadCamino] = actual;
+            cantidadCamino++;
+            actual = previo[actual];
+        }
+
+        String resultado = "";
+        for (int i = cantidadCamino - 1; i >= 0; i--) {
+            resultado += zonas[camino[i]];
+            if (i > 0) resultado += " -> ";
+        }
+        return resultado;
+    }
+
+    private int[] calcularPrevios(int inicio, int[] distancia) {
+        int[] previo = new int[cantidad];
         boolean[] visitado = new boolean[cantidad];
-        for (int i = 0; i < cantidad; i++) distancia[i] = INFINITO;
+        for (int i = 0; i < cantidad; i++) {
+            distancia[i] = INFINITO;
+            previo[i] = -1;
+        }
         distancia[inicio] = 0;
 
         for (int paso = 0; paso < cantidad; paso++) {
@@ -75,12 +111,14 @@ public class GrafoRutas implements IColeccion {
             for (int i = 0; i < cantidad; i++) {
                 if (pesos[actual][i] != SIN_RUTA && !visitado[i]) {
                     int nueva = distancia[actual] + pesos[actual][i];
-                    if (nueva < distancia[i]) distancia[i] = nueva;
+                    if (nueva < distancia[i]) {
+                        distancia[i] = nueva;
+                        previo[i] = actual;
+                    }
                 }
             }
         }
-
-        return distancia[fin] == INFINITO ? -1 : distancia[fin];
+        return previo;
     }
 
     public void mostrar() {

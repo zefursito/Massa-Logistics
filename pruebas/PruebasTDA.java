@@ -225,5 +225,10 @@ public class PruebasTDA {
                 false, g.agregarZona("Recepcion"), "");
         verificar("Grafo.rutaMasCorta a zona inexistente", "Recepcion -> Zzz",
                 -1, g.rutaMasCorta("Recepcion", "Zzz"), "Debe devolver -1");
+        verificar("Grafo.caminoMasCorto", "Recepcion -> Expedicion",
+                "Recepcion -> AlmacenA -> AlmacenB -> Expedicion",
+                g.caminoMasCorto("Recepcion", "Expedicion"), "Camino reconstruido con el arreglo previo[]");
+        verificar("Grafo.caminoMasCorto a zona inexistente", "Recepcion -> Zzz",
+                null, g.caminoMasCorto("Recepcion", "Zzz"), "Debe devolver null");
     }
 }

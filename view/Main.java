@@ -139,6 +139,7 @@ public class Main {
                 + rutas.existeRuta("Recepcion", "Expedicion"));
         System.out.println("  Peso minimo Recepcion -> Expedicion:   "
                 + rutas.rutaMasCorta("Recepcion", "Expedicion"));
+        System.out.println("  Camino: " + rutas.caminoMasCorto("Recepcion", "Expedicion"));
     }
 
     private static void titulo(int numero, String nombre, String estructura) {
