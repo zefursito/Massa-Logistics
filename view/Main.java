@@ -109,11 +109,11 @@ public class Main {
         ArbolCategorias categorias = new ArbolCategorias("Productos");
         categorias.agregar("Productos",   "Electronica");
         categorias.agregar("Productos",   "Alimentos");
-        categorias.agregar("Productos",   "Bebidas");
         categorias.agregar("Electronica", "Computadoras");
         categorias.agregar("Electronica", "Celulares");
         categorias.agregar("Alimentos",   "Lacteos");
-        categorias.agregar("Alimentos",   "Secos");
+        categorias.agregar("Lacteos",     "Secos");
+        categorias.agregar("Lacteos",     "Bebidas");
         categorias.agregar("Bebidas",     "Alcoholicas");
         categorias.agregar("Bebidas",     "Sin alcohol");
 
@@ -121,6 +121,10 @@ public class Main {
         System.out.println("\n  Total de categorias: " + categorias.getCantidad());
         System.out.println("  Contiene 'Celulares'? " + categorias.contiene("Celulares"));
         System.out.println("  Contiene 'Juguetes'?  " + categorias.contiene("Juguetes"));
+
+        boolean tercerHijo = categorias.agregar("Productos", "Limpieza");
+        System.out.println("  Productos ya tiene 2 hijos (Electronica, Alimentos).");
+        System.out.println("  ¿Se puede agregar un 3er hijo? " + tercerHijo + "  (rechazado: maximo 2 hijos por nodo)");
 
         titulo(7, "Rutas entre zonas del deposito", "Grafo ponderado no dirigido");
         GrafoRutas rutas = new GrafoRutas(5);

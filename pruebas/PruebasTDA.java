@@ -197,6 +197,8 @@ public class PruebasTDA {
                 false, arbol.agregar("Zzz", "Nuevo"), "El padre no existe");
         verificar("Arbol.agregar categoria duplicada", "agregar(Productos, Electronica)",
                 false, arbol.agregar("Productos", "Electronica"), "Ya existe");
+        verificar("Arbol.agregar tercer hijo rechazado", "Productos ya tiene 2 hijos (Electronica, Alimentos); agregar(Productos, Bebidas)",
+                false, arbol.agregar("Productos", "Bebidas"), "Un arbol binario admite maximo 2 hijos por nodo");
         verificar("Arbol.contiene inexistente", "contiene(Juguetes)",
                 false, arbol.contiene("Juguetes"), "");
         verificar("Arbol.getCantidad", "raiz + 3 categorias",

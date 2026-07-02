@@ -6,8 +6,8 @@ public class ArbolCategorias implements IColeccion {
 
     private class Nodo {
         String nombre;
-        Nodo primerHijo;
-        Nodo siguienteHermano;
+        Nodo hijoIzquierdo;
+        Nodo hijoDerecho;
 
         Nodo(String nombre) { this.nombre = nombre; }
     }
@@ -26,12 +26,12 @@ public class ArbolCategorias implements IColeccion {
         if (buscarNodo(raiz, nombreHija) != null) return false;
 
         Nodo hija = new Nodo(nombreHija);
-        if (padre.primerHijo == null) {
-            padre.primerHijo = hija;
+        if (padre.hijoIzquierdo == null) {
+            padre.hijoIzquierdo = hija;
+        } else if (padre.hijoDerecho == null) {
+            padre.hijoDerecho = hija;
         } else {
-            Nodo actual = padre.primerHijo;
-            while (actual.siguienteHermano != null) actual = actual.siguienteHermano;
-            actual.siguienteHermano = hija;
+            return false;
         }
         cantidad++;
         return true;
@@ -44,9 +44,9 @@ public class ArbolCategorias implements IColeccion {
     private Nodo buscarNodo(Nodo actual, String nombre) {
         if (actual == null) return null;
         if (actual.nombre.equals(nombre)) return actual;
-        Nodo enHijos = buscarNodo(actual.primerHijo, nombre);
-        if (enHijos != null) return enHijos;
-        return buscarNodo(actual.siguienteHermano, nombre);
+        Nodo enIzquierdo = buscarNodo(actual.hijoIzquierdo, nombre);
+        if (enIzquierdo != null) return enIzquierdo;
+        return buscarNodo(actual.hijoDerecho, nombre);
     }
 
     private static final String RAMA     = "|-- ";
@@ -56,15 +56,22 @@ public class ArbolCategorias implements IColeccion {
 
     public void mostrar() {
         System.out.println(raiz.nombre);
-        mostrarHijos(raiz.primerHijo, "");
+        mostrarHijos(raiz, "");
     }
 
     private void mostrarHijos(Nodo actual, String prefijo) {
-        if (actual == null) return;
-        boolean ultimo = (actual.siguienteHermano == null);
-        System.out.println(prefijo + (ultimo ? ULTIMA : RAMA) + actual.nombre);
-        mostrarHijos(actual.primerHijo, prefijo + (ultimo ? VACIO : VERTICAL));
-        mostrarHijos(actual.siguienteHermano, prefijo);
+        boolean tieneIzquierdo = actual.hijoIzquierdo != null;
+        boolean tieneDerecho = actual.hijoDerecho != null;
+
+        if (tieneIzquierdo) {
+            boolean esUltimo = !tieneDerecho;
+            System.out.println(prefijo + (esUltimo ? ULTIMA : RAMA) + actual.hijoIzquierdo.nombre);
+            mostrarHijos(actual.hijoIzquierdo, prefijo + (esUltimo ? VACIO : VERTICAL));
+        }
+        if (tieneDerecho) {
+            System.out.println(prefijo + ULTIMA + actual.hijoDerecho.nombre);
+            mostrarHijos(actual.hijoDerecho, prefijo + VACIO);
+        }
     }
 
     @Override
