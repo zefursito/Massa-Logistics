@@ -7,21 +7,46 @@ import tda.ListaEnlazada;
 public class GestorPedidos {
 
     private final Cola<Pedido> porAtender = new Cola<>();
+    
+    private final Cola<Pedido> expressPorAtender = new Cola<>(); 
     private final ListaEnlazada<Pedido> activos = new ListaEnlazada<>();
 
+    
     public void registrarPedido(Pedido p) {
-        porAtender.encolar(p);
+        registrarPedido(p, false); 
+    }
+
+    
+    public void registrarPedido(Pedido p, boolean esExpress) {
+        if (esExpress) {
+            expressPorAtender.encolar(p);
+        } else {
+            porAtender.encolar(p);
+        }
         activos.agregar(p);
     }
 
     public Pedido atenderSiguiente() {
-        Pedido p = porAtender.desencolar();
-        if (p != null) p.cambiarEstado("EN PREPARACION");
+        Pedido p = null;
+
+        
+        if (!expressPorAtender.estaVacia()) {
+            p = expressPorAtender.desencolar();
+        } 
+        
+        else if (!porAtender.estaVacia()) {
+            p = porAtender.desencolar();
+        }
+
+        if (p != null) {
+            p.cambiarEstado("EN PREPARACION");
+        }
         return p;
     }
 
     public boolean hayPendientes() {
-        return !porAtender.estaVacia();
+        
+        return !expressPorAtender.estaVacia() || !porAtender.estaVacia();
     }
 
     public int pedidosActivos() {

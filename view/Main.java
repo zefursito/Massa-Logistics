@@ -47,7 +47,7 @@ public class Main {
         System.out.print("  -> ");
         inventario.stockMasCritico().mostrar();
 
-        titulo(3, "Pedidos por orden de llegada", "Cola FIFO + Lista Enlazada");
+        titulo(3, "Pedidos por orden de llegada con Canal Express (Mejora)", "2 Colas FIFO + Lista Enlazada");
         GestorPedidos pedidos = new GestorPedidos();
 
         Pedido ped1 = new Pedido(1, "Juan Perez");
@@ -57,17 +57,25 @@ public class Main {
         Pedido ped2 = new Pedido(2, "Maria Lopez");
         ped2.agregarProducto(p3);
 
-        pedidos.registrarPedido(ped1);
-        pedidos.registrarPedido(ped2);
+        
+        Pedido pedExpress = new Pedido(3, "Hospital Central (URGENTE)");
+        pedExpress.agregarProducto(p4);
 
-        System.out.println("  Pedidos activos: " + pedidos.pedidosActivos());
-        System.out.println("  Atendiendo pedidos en orden de llegada:");
+        
+        pedidos.registrarPedido(ped1, false); 
+        pedidos.registrarPedido(ped2, false); 
+        pedidos.registrarPedido(pedExpress, true); 
+
+        System.out.println("  Pedidos activos en el sistema: " + pedidos.pedidosActivos());
+        System.out.println("  Atendiendo pedidos (El sistema prioriza el canal Express):");
+        
         while (pedidos.hayPendientes()) {
             pedidos.atenderSiguiente().mostrar();
         }
 
         pedidos.entregarPedido(0);
         System.out.println("\n  Tras entregar el primer pedido, quedan activos: " + pedidos.pedidosActivos());
+
 
         titulo(4, "Historial y reversion de movimientos", "Pila + Pila Enlazada");
         GestorMovimientos movimientos = new GestorMovimientos();
@@ -109,11 +117,11 @@ public class Main {
         ArbolCategorias categorias = new ArbolCategorias("Productos");
         categorias.agregar("Productos",   "Electronica");
         categorias.agregar("Productos",   "Alimentos");
+        categorias.agregar("Productos",   "Bebidas");
         categorias.agregar("Electronica", "Computadoras");
         categorias.agregar("Electronica", "Celulares");
         categorias.agregar("Alimentos",   "Lacteos");
-        categorias.agregar("Lacteos",     "Secos");
-        categorias.agregar("Lacteos",     "Bebidas");
+        categorias.agregar("Alimentos",   "Secos");
         categorias.agregar("Bebidas",     "Alcoholicas");
         categorias.agregar("Bebidas",     "Sin alcohol");
 
@@ -121,10 +129,6 @@ public class Main {
         System.out.println("\n  Total de categorias: " + categorias.getCantidad());
         System.out.println("  Contiene 'Celulares'? " + categorias.contiene("Celulares"));
         System.out.println("  Contiene 'Juguetes'?  " + categorias.contiene("Juguetes"));
-
-        boolean tercerHijo = categorias.agregar("Productos", "Limpieza");
-        System.out.println("  Productos ya tiene 2 hijos (Electronica, Alimentos).");
-        System.out.println("  ¿Se puede agregar un 3er hijo? " + tercerHijo + "  (rechazado: maximo 2 hijos por nodo)");
 
         titulo(7, "Rutas entre zonas del deposito", "Grafo ponderado no dirigido");
         GrafoRutas rutas = new GrafoRutas(5);
@@ -143,7 +147,6 @@ public class Main {
                 + rutas.existeRuta("Recepcion", "Expedicion"));
         System.out.println("  Peso minimo Recepcion -> Expedicion:   "
                 + rutas.rutaMasCorta("Recepcion", "Expedicion"));
-        System.out.println("  Camino: " + rutas.caminoMasCorto("Recepcion", "Expedicion"));
     }
 
     private static void titulo(int numero, String nombre, String estructura) {
