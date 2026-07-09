@@ -10,6 +10,7 @@ import service.GestorPedidos;
 import service.GestorReparto;
 import tda.ArbolCategorias;
 import tda.GrafoRutas;
+import tda.ListaEnlazada;
 
 public class Main {
 
@@ -47,7 +48,7 @@ public class Main {
         System.out.print("  -> ");
         inventario.stockMasCritico().mostrar();
 
-        titulo(3, "Pedidos por orden de llegada con Canal Express (Mejora)", "2 Colas FIFO + Lista Enlazada");
+        titulo(3, "Pedidos por orden de llegada", "Cola FIFO + Lista Enlazada");
         GestorPedidos pedidos = new GestorPedidos();
 
         Pedido ped1 = new Pedido(1, "Juan Perez");
@@ -57,18 +58,11 @@ public class Main {
         Pedido ped2 = new Pedido(2, "Maria Lopez");
         ped2.agregarProducto(p3);
 
-        
-        Pedido pedExpress = new Pedido(3, "Hospital Central (URGENTE)");
-        pedExpress.agregarProducto(p4);
+        pedidos.registrarPedido(ped1);
+        pedidos.registrarPedido(ped2);
 
-        
-        pedidos.registrarPedido(ped1, false); 
-        pedidos.registrarPedido(ped2, false); 
-        pedidos.registrarPedido(pedExpress, true); 
-
-        System.out.println("  Pedidos activos en el sistema: " + pedidos.pedidosActivos());
-        System.out.println("  Atendiendo pedidos (El sistema prioriza el canal Express):");
-        
+        System.out.println("  Pedidos activos: " + pedidos.pedidosActivos());
+        System.out.println("  Atendiendo pedidos en orden de llegada:");
         while (pedidos.hayPendientes()) {
             pedidos.atenderSiguiente().mostrar();
         }
@@ -130,7 +124,7 @@ public class Main {
         System.out.println("  Contiene 'Celulares'? " + categorias.contiene("Celulares"));
         System.out.println("  Contiene 'Juguetes'?  " + categorias.contiene("Juguetes"));
 
-        titulo(7, "Rutas entre zonas del deposito", "Grafo ponderado no dirigido");
+        titulo(7, "Rutas entre zonas y Hoja de Ruta Dinamica (Mejora)", "Grafo Ponderado + Lista Enlazada");
         GrafoRutas rutas = new GrafoRutas(5);
         rutas.agregarZona("Recepcion");
         rutas.agregarZona("Almacen-A");
@@ -143,10 +137,35 @@ public class Main {
         rutas.agregarRuta("Almacen-B", "Expedicion", 3);
 
         rutas.mostrar();
-        System.out.println("\n  Ruta directa Recepcion <-> Expedicion? "
-                + rutas.existeRuta("Recepcion", "Expedicion"));
-        System.out.println("  Peso minimo Recepcion -> Expedicion:   "
-                + rutas.rutaMasCorta("Recepcion", "Expedicion"));
+        
+        System.out.println("\n  -> Reconstruccion de ruta de Recepcion a Expedicion:");
+        System.out.println("     Texto plano original: " + rutas.caminoMasCorto("Recepcion", "Expedicion"));
+        System.out.println("     Peso minimo total:    " + rutas.rutaMasCorta("Recepcion", "Expedicion"));
+
+        
+        System.out.println("\n  -> Generando Hoja de Ruta Estructurada...");
+        ListaEnlazada<String> hojaDeRuta = rutas.obtenerSecuenciaCamino("Recepcion", "Expedicion");
+
+        if (hojaDeRuta != null) {
+            System.out.println("     Cantidad de Checkpoints a validar: " + hojaDeRuta.getCantidad());
+            
+            
+            System.out.print("     Puntos de control obligatorios: ");
+            for (int i = 0; i < hojaDeRuta.getCantidad(); i++) {
+                System.out.print("[" + hojaDeRuta.obtener(i) + "]");
+                if (i < hojaDeRuta.getCantidad() - 1) System.out.print(" -> ");
+            }
+            System.out.println();
+            
+            
+            String checkpointActualizado = hojaDeRuta.obtener(1); // Almacen-A
+            System.out.println("     [AUDITORIA] Camion reporta en zona: '" + checkpointActualizado + "'");
+            if (checkpointActualizado.equals("Almacen-A")) {
+                System.out.println("     [STATUS] El vehiculo avanza en la ruta optima planificada por el Grafo.");
+            } else {
+                System.out.println("     [ALERTA] DESVIO DETECTADO. El vehiculo no respetó el camino minimo.");
+            }
+        }
     }
 
     private static void titulo(int numero, String nombre, String estructura) {

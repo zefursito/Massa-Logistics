@@ -139,6 +139,34 @@ public class GrafoRutas implements IColeccion {
         return -1;
     }
 
+    
+    public ListaEnlazada<String> obtenerSecuenciaCamino(String origen, String destino) {
+        int inicio = indiceDe(origen);
+        int fin = indiceDe(destino);
+        if (inicio == -1 || fin == -1) return null;
+
+        int[] distancia = new int[cantidad];
+        int[] previo = calcularPrevios(inicio, distancia);
+        if (distancia[fin] == INFINITO) return null;
+
+        // Reconstruimos el camino hacia atrás usando un arreglo temporal
+        int[] temporal = new int[cantidad];
+        int cantTemporal = 0;
+        int actual = fin;
+        while (actual != -1) {
+            temporal[cantTemporal] = actual;
+            cantTemporal++;
+            actual = previo[actual];
+        }
+
+        
+        ListaEnlazada<String> secuencia = new ListaEnlazada<>();
+        for (int i = cantTemporal - 1; i >= 0; i--) {
+            secuencia.agregar(zonas[temporal[i]]);
+        }
+        return secuencia;
+    }
+
     @Override
     public boolean estaVacia() { return cantidad == 0; }
 
