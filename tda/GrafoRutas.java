@@ -149,7 +149,7 @@ public class GrafoRutas implements IColeccion {
         int[] previo = calcularPrevios(inicio, distancia);
         if (distancia[fin] == INFINITO) return null;
 
-        // Reconstruimos el camino hacia atrás usando un arreglo temporal
+        
         int[] temporal = new int[cantidad];
         int cantTemporal = 0;
         int actual = fin;
